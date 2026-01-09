@@ -50,7 +50,7 @@ function getExplorerLink(address: string, type: 'address' | 'stake' = 'address')
 }
 
 export default function TokenInfo() {
-    const { selectedNode, graphData, assetInfo } = useNebulaStore();
+    const { selectedNode, graphData, assetInfo, setSelectedNode } = useNebulaStore();
     const [showAnalytics, setShowAnalytics] = useState(true);
 
     if (!graphData || !assetInfo) {

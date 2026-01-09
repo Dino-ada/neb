@@ -32,10 +32,7 @@ interface GraphLink {
 }
 
 export default function GalaxyCanvas() {
-    const graphRef = useRef<{
-        d3Force: (forceName: string, force?: unknown) => unknown;
-        cameraPosition: (pos: { x: number; y: number; z: number }, lookAt?: { x: number; y: number; z: number }, transitionMs?: number) => void;
-    }>(null);
+    const graphRef = useRef<any>(null);
     const {
         graphData,
         setSelectedNode,
@@ -64,11 +61,11 @@ export default function GalaxyCanvas() {
         if (graphRef.current && graphData) {
             const fg = graphRef.current;
 
-            fg.d3Force('charge')?.strength?.(-300);
-            fg.d3Force('link')?.distance?.((link: GraphLink) =>
+            (fg.d3Force('charge') as any)?.strength?.(-300);
+            (fg.d3Force('link') as any)?.distance?.((link: GraphLink) =>
                 100 / (link.strength || 1)
             );
-            fg.d3Force('center')?.strength?.(0.05);
+            (fg.d3Force('center') as any)?.strength?.(0.05);
 
             setTimeout(() => {
                 fg.cameraPosition(
@@ -227,15 +224,15 @@ export default function GalaxyCanvas() {
                 ref={graphRef}
                 width={dimensions.width}
                 height={dimensions.height}
-                graphData={processedData}
-                nodeThreeObject={nodeThreeObject}
+                graphData={processedData as any}
+                nodeThreeObject={nodeThreeObject as any}
                 nodeThreeObjectExtend={false}
                 linkColor={() => 'rgba(0, 243, 255, 0.25)'}
                 linkWidth={(link) => Math.min(3, (link as GraphLink).strength * 0.5)}
                 linkOpacity={0.3}
                 backgroundColor="#050510"
-                onNodeClick={handleNodeClick}
-                onNodeRightClick={handleNodeRightClick}
+                onNodeClick={handleNodeClick as any}
+                onNodeRightClick={handleNodeRightClick as any}
                 nodeLabel={(node) => {
                     const n = node as GraphNode;
                     const pct = graphData ? ((n.balance / graphData.metadata.totalSupply) * 100).toFixed(2) : '?';
